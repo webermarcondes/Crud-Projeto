@@ -1,6 +1,7 @@
 package entidades;
 
 import entidades.FeedBack;
+import enums.Setor;
 
 import java.time.LocalDate;
 
@@ -11,6 +12,15 @@ public class Ideia {
     private LocalDate data;
     private Colaborador colaborador;
     private FeedBack feedBack;
+    private Setor setor;
+
+    public Setor getSetor() {
+        return setor;
+    }
+
+    public void setSetor(Setor setor) {
+        this.setor = setor;
+    }
 
     public String getId() {
         return id;
