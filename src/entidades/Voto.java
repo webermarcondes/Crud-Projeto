@@ -1,3 +1,8 @@
+package entidades;
+
+import entidades.Ideia;
+import enums.OpcaoVoto;
+
 public class Voto {
     private String id;
     private Ideia ideia;

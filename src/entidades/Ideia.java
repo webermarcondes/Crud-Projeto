@@ -1,3 +1,7 @@
+package entidades;
+
+import entidades.FeedBack;
+
 import java.time.LocalDate;
 
 public class Ideia {
