@@ -1,9 +1,26 @@
+package entidades;
+
+import enums.Setor;
+
 public class Colaborador {
     private Integer id;
     private String nome;
     private String login;
     private String senha;
     private Setor setor;
+
+
+    public Colaborador() {
+
+    }
+
+    public Colaborador(Integer id, String nome, String login, String senha, Setor setor) {
+        this.id = id;
+        this.nome = nome;
+        this.login = login;
+        this.senha = senha;
+        this.setor = setor;
+    }
 
     public Integer getId() {
         return id;
@@ -17,7 +34,7 @@ public class Colaborador {
         return nome;
     }
 
-    public void setNome(String nome) {
+    public void setNome (String nome) throws NullPointerException {
         this.nome = nome;
     }
 
@@ -45,4 +62,14 @@ public class Colaborador {
         this.setor = setor;
     }
 
+    @Override
+    public String toString() {
+        return "Colaborador{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", login='" + login + '\'' +
+                ", senha='" + senha + '\'' +
+                ", setor=" + setor +
+                '}';
+    }
 }
