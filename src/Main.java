@@ -1,12 +1,16 @@
-import entidades.Colaborador;
-import entidades.FeedBack;
-import entidades.FormatoSenha;
-import entidades.Ideia;
+import entidades.*;
 import enums.Setor;
 import classesDAO.*;
+import repository.IdeiaRepository;
 
 import javax.swing.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Main {
@@ -40,12 +44,16 @@ public class Main {
 
         Colaborador colaborador = ColaboradorDAO.buscarPorLoginESenha(login, senha);
 
+
         if (colaborador != null) {
             if (colaborador.getNome() == "admin") {
                 menuOpcoesAdmin();
+                validaLogin(null);
             }
             else {
-                menuOpcoesColaborador();
+                menuOpcoesColaborador(colaborador);
+                IdeiaRepository.insere(colaborador);
+
             }
             JOptionPane.showMessageDialog(null, "USUÁRIO DESCONECTADO COM SUCESSO!", "Mensagem de Saída", JOptionPane.INFORMATION_MESSAGE);
             menuInicial();
@@ -104,26 +112,29 @@ public class Main {
         JOptionPane.showMessageDialog(null, "COLABORADOR CADASTRADO COM SUCESSO!", "Cadastro de colaborador", JOptionPane.INFORMATION_MESSAGE);
 
         ColaboradorDAO.salvar(colaborador);
-        menuInicial();
+
     }
 
-    private static void menuOpcoesColaborador() {
+    private static void menuOpcoesColaborador(Colaborador colaborador) {
 
             String[] opcoesMenu = {"Editar Dados do cadastro", "Publicar Ideia", "Ver Ideias Publicadas", "Votar em uma ideia", "Sair"};
             int selecao = JOptionPane.showOptionDialog(null, "Selecione a opção desejada", "Menu", JOptionPane.INFORMATION_MESSAGE, JOptionPane.QUESTION_MESSAGE, null, opcoesMenu, opcoesMenu[0]);
             switch (selecao){
 
                 case 0:
-                    menuEdicaoCadastro();
+                    editarColaborador(colaborador);
+                    menuOpcoesColaborador(colaborador);
+
                     break;
 
                 case 1:
                     realizarIdeais();
-                    menuOpcoesColaborador();
+                    menuOpcoesColaborador(colaborador);
                     break;
 
-                case 3:
+                case 2:
                     visualizacaoDeIdeias(selecaoDeIdeias());
+                    menuOpcoesColaborador(colaborador);
                     break;
             }
     }
@@ -141,9 +152,17 @@ public class Main {
 
     private static void visualizacaoDeIdeias(Ideia ideia){
 
-        JOptionPane.showInputDialog(null, ideia.getTitulo() + "\n"
-                + ideia.getDescricao() + "\n"
-                + ideia.getSetor());
+        JOptionPane.showMessageDialog(null, "Título: "+ideia.getTitulo() + "\n"
+                +"Setor: "+ ideia.getSetor() + "\n"
+                +"Descriçao: "+ ideia.getDescricao() + "\n"
+                +"Data: "+ ideia.getData());
+    }
+
+    private static void votarIdeia(){
+
+        Ideia ideiaList = selecaoDeIdeias();
+        Voto voto = new Voto();
+
     }
 
     private static void feedbackIdeias(){
@@ -158,8 +177,8 @@ public class Main {
 
     }
 
-    private static void curitrIdeias(){
-        
+    private static void curitirIdeias(){
+
     }
 
     private static void menuOpcoesAdmin() {
@@ -170,14 +189,17 @@ public class Main {
 
             case 0:
             menuEdicaoCadastro();
+            menuOpcoesAdmin();
             break;
 
             case 1:
                 visualizacaoDeIdeias(selecaoDeIdeias());
+                menuOpcoesAdmin();
                 break;
 
             case 2:
                 feedbackIdeias();
+                menuOpcoesAdmin();
                 break;
         }
     }
@@ -189,7 +211,6 @@ public class Main {
         colaborador.setSenha(JOptionPane.showInputDialog(null, "Digite a senha: " , colaborador.getSenha()));
         Setor[] setores = Setor.values();
         colaborador.setSetor(Setor.getSetorById(JOptionPane.showOptionDialog(null, "Selecione o setor para editar", "Edição de colaborador", JOptionPane.INFORMATION_MESSAGE, JOptionPane.QUESTION_MESSAGE,null, setores, setores[0])));
-        menuOpcoesAdmin();
 
     }
 
@@ -217,14 +238,16 @@ public class Main {
 
     private static void realizarIdeais(){
 
+        Date now = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         Ideia ideia = new Ideia();
         Setor[] setores = Setor.values();
         ideia.setSetor(Setor.getSetorById(JOptionPane.showOptionDialog(null, "Selecione o setor para adicionar a ideia", "Inserir ideia", JOptionPane.INFORMATION_MESSAGE, JOptionPane.QUESTION_MESSAGE,null, setores, setores[0])));
         ideia.setTitulo(JOptionPane.showInputDialog(null, "Digite o título: " ));
         ideia.setDescricao(JOptionPane.showInputDialog(null, "Digite a ideia: " ));
+        ideia.setData(sdf.format(now));
         ideia.setSetor(Setor.COMERCIAL);
         IdeiaDAO.salvarIdeia(ideia);
-
     }
 
     private static void menuEdicaoCadastro(){
@@ -257,9 +280,20 @@ public class Main {
         return colaboradorDAO;
     }
 
+    private static boolean validaColaborador(boolean valida){
+        return valida;
+    }
+
+    private static Colaborador validaLogin(Colaborador colaboradorLogin){
+       Colaborador login = colaboradorLogin;
+       return login;
+    }
+
     private static IdeiaDAO getIdeiasDAO(){
         IdeiaDAO ideiaDAO = new IdeiaDAO();
         return ideiaDAO;
     }
+
+
 }
 

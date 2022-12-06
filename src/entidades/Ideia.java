@@ -9,10 +9,11 @@ public class Ideia {
     private String id;
     private String titulo;
     private String descricao;
-    private LocalDate data;
+    private String data;
     private Colaborador colaborador;
     private Setor setor;
     private FeedBack feedBack;
+    private Voto voto;
 
 
 
@@ -60,11 +61,11 @@ public class Ideia {
         this.descricao = descricao;
     }
 
-    public LocalDate getData() {
+    public String getData() {
         return data;
     }
 
-    public void setData(LocalDate data) {
+    public void setData(String data) {
         this.data = data;
     }
 
