@@ -9,9 +9,13 @@ public class Ideia {
     private String id;
     private String titulo;
     private String descricao;
-    private LocalDate data;
+    private String data;
     private Colaborador colaborador;
     private Setor setor;
+    private FeedBack feedBack;
+    private Voto voto;
+
+
 
     public Ideia() {
 
@@ -19,6 +23,14 @@ public class Ideia {
 
     public Setor getSetor() {
         return setor;
+    }
+
+    public FeedBack getFeedBack() {
+        return feedBack;
+    }
+
+    public void setFeedBack(FeedBack feedBack) {
+        this.feedBack = feedBack;
     }
 
     public void setSetor(Setor setor) {
@@ -49,11 +61,11 @@ public class Ideia {
         this.descricao = descricao;
     }
 
-    public LocalDate getData() {
+    public String getData() {
         return data;
     }
 
-    public void setData(LocalDate data) {
+    public void setData(String data) {
         this.data = data;
     }
 
@@ -74,6 +86,7 @@ public class Ideia {
                 ", data=" + data +
                 ", colaborador=" + colaborador +
                 ", setor=" + setor +
+                ", feedBack=" + feedBack +
                 '}';
     }
 }
