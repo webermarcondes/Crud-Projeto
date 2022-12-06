@@ -16,7 +16,7 @@ public class IdeiaDAO {
         return ideias;
     }
 
-    public static Object[]findIdeiasInArray(){
+    public static Object[] findIdeiasInArray(){
         List<Ideia> ideiaBusca = IdeiaDAO.buscarTodos();
         List<String> ideiaBuscaTitulo = new ArrayList<>();
 
@@ -24,5 +24,13 @@ public class IdeiaDAO {
             ideiaBuscaTitulo.add(ideia1.getTitulo());
         }
         return ideiaBuscaTitulo.toArray();
+    }
+
+    public List<Ideia> buscarPorTitulo(Ideia titulo) {
+        List<Ideia>ideiasFiltradas =new ArrayList<>();
+        for (Ideia busca : ideias){
+            ideiasFiltradas.add(titulo);
+        }
+        return ideiasFiltradas;
     }
 }
