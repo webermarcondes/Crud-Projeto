@@ -52,7 +52,6 @@ public class Main {
             }
             else {
                 menuOpcoesColaborador(colaborador);
-                IdeiaRepository.insere(colaborador);
 
             }
             JOptionPane.showMessageDialog(null, "USUÁRIO DESCONECTADO COM SUCESSO!", "Mensagem de Saída", JOptionPane.INFORMATION_MESSAGE);
@@ -60,12 +59,10 @@ public class Main {
         }
 
         else {
-            String[] opcoes = {"Sim", "Não"};
-            int idOP = JOptionPane.showOptionDialog(null, "Não há nenhum cadastro com o login e senha informado, deseja se cadastrar?", "Menu Login", JOptionPane.INFORMATION_MESSAGE, JOptionPane.QUESTION_MESSAGE, null,opcoes, opcoes[0]);
 
-            if (idOP == 0) {
-                menuCadastro();
-            }
+            JOptionPane.showMessageDialog(null,"Usuário inválido!", "ERRO", 0);
+                menuInicial();
+
         }
     }
 
