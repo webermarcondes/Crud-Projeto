@@ -52,7 +52,7 @@ public class Main {
             }
             else {
                 menuOpcoesColaborador(colaborador);
-                IdeiaRepository.insere(colaborador);
+      
 
             }
             JOptionPane.showMessageDialog(null, "USUÁRIO DESCONECTADO COM SUCESSO!", "Mensagem de Saída", JOptionPane.INFORMATION_MESSAGE);
