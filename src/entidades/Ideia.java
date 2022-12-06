@@ -1,18 +1,21 @@
 package entidades;
 
-import entidades.FeedBack;
 import enums.Setor;
 
 import java.time.LocalDate;
 
 public class Ideia {
+
     private String id;
     private String titulo;
     private String descricao;
     private LocalDate data;
     private Colaborador colaborador;
-    private FeedBack feedBack;
     private Setor setor;
+
+    public Ideia() {
+
+    }
 
     public Setor getSetor() {
         return setor;
@@ -62,11 +65,15 @@ public class Ideia {
         this.colaborador = colaborador;
     }
 
-    public FeedBack getFeedBack() {
-        return feedBack;
-    }
-
-    public void setFeedBack(FeedBack feedBack) {
-        this.feedBack = feedBack;
+    @Override
+    public String toString() {
+        return "Ideia{" +
+                "id='" + id + '\'' +
+                ", titulo='" + titulo + '\'' +
+                ", descricao='" + descricao + '\'' +
+                ", data=" + data +
+                ", colaborador=" + colaborador +
+                ", setor=" + setor +
+                '}';
     }
 }

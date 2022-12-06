@@ -13,10 +13,10 @@ public class Main {
         ColaboradorDAO.carregarDados();
         menuInicial();
 
-
     }
 
     private static void menuInicial(){
+
         String[] opcoesInicio = {"Login", "Cadastro", "Sair"};
         int idOpInicio = JOptionPane.showOptionDialog(null, "Selecione a opção desejada", "Menu_Inicial", JOptionPane.INFORMATION_MESSAGE, JOptionPane.QUESTION_MESSAGE, null, opcoesInicio, opcoesInicio[0]);
 
@@ -110,9 +110,24 @@ public class Main {
     }
 
     private static void menuOpcoesColaborador() {
-            String[] opcoesMenu = {"Editar Dados do cadastro", "Publicar Ideia", "Ver Ideias Publicadas", "Votar em uma ideia", "Sair"};
-            JOptionPane.showOptionDialog(null, "Selecione a opção desejada", "Menu", JOptionPane.INFORMATION_MESSAGE, JOptionPane.QUESTION_MESSAGE, null, opcoesMenu, opcoesMenu[0]);
 
+            String[] opcoesMenu = {"Editar Dados do cadastro", "Publicar Ideia", "Ver Ideias Publicadas", "Votar em uma ideia", "Sair"};
+            int selecao = JOptionPane.showOptionDialog(null, "Selecione a opção desejada", "Menu", JOptionPane.INFORMATION_MESSAGE, JOptionPane.QUESTION_MESSAGE, null, opcoesMenu, opcoesMenu[0]);
+            switch (selecao){
+
+                case 0:
+                    menuEdicaoCadastro();
+                    break;
+
+                case 1:
+                    realizarIdeais();
+                    menuOpcoesColaborador();
+                    break;
+
+                case 3:
+                    visualizacaoDeIdeias(selecaoDeIdeias());
+                    break;
+            }
     }
 
     private static Ideia selecaoDeIdeias(){
@@ -126,25 +141,38 @@ public class Main {
         return ideiaList.get(0);
     }
 
-    private static void visualizacaoDeIdeias(Ideia idea){
+    private static void visualizacaoDeIdeias(Ideia ideia){
+
+        JOptionPane.showInputDialog(null, ideia.getTitulo() + "\n"
+                + ideia.getDescricao() + "\n"
+                + ideia.getSetor());
+    }
+
+    private static void feedbackIdeias(){
+
 
     }
 
     private static void menuOpcoesAdmin() {
 
-        String[] opcoesMenu = {"Cadastros", "Adicionar ideia","Visualizar Ideias", "Dar feedback a uma ideia", "Sair"};
+        String[] opcoesMenu = {"Cadastros","Visualizar Ideias", "Dar feedback a uma ideia", "Sair"};
         int selecao = JOptionPane.showOptionDialog(null, "Selecione a opção desejada", "Menu", JOptionPane.INFORMATION_MESSAGE, JOptionPane.QUESTION_MESSAGE, null, opcoesMenu, opcoesMenu[0]);
         switch (selecao){
+
             case 0:
             menuEdicaoCadastro();
         break;
 
+//            case 1:
+//                //realizarIdeais();
+//                break;
+
             case 1:
-                realizarIdeais();
+                visualizacaoDeIdeias(selecaoDeIdeias());
                 break;
 
             case 2:
-                visualizacaoDeIdeias(selecaoDeIdeias());
+
                 break;
         }
     }
@@ -185,10 +213,11 @@ public class Main {
     private static void realizarIdeais(){
 
         Ideia ideia = new Ideia();
-
         Setor[] setores = Setor.values();
         ideia.setSetor(Setor.getSetorById(JOptionPane.showOptionDialog(null, "Selecione o setor para adicionar a ideia", "Inserir ideia", JOptionPane.INFORMATION_MESSAGE, JOptionPane.QUESTION_MESSAGE,null, setores, setores[0])));
+        ideia.setTitulo(JOptionPane.showInputDialog(null, "Digite o título: " ));
         ideia.setDescricao(JOptionPane.showInputDialog(null, "Digite a ideia: " ));
+        ideia.setSetor(Setor.COMERCIAL);
         IdeiaDAO.salvarIdeia(ideia);
 
     }

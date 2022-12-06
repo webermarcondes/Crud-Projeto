@@ -12,6 +12,8 @@ public class ColaboradorDAO {
 
     public static void carregarDados() {
         Colaborador admin = new Colaborador(1, "admin", "admin", "12345678", Setor.SISTEMAS);
+        Colaborador colaborador = new Colaborador(2,"colaborador", "colaborador","12345678", Setor.COMERCIAL);
+        salvar(colaborador);
         salvar(admin);
     }
 
