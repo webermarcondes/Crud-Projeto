@@ -12,6 +12,9 @@ public class Ideia {
     private LocalDate data;
     private Colaborador colaborador;
     private Setor setor;
+    private FeedBack feedBack;
+
+
 
     public Ideia() {
 
@@ -19,6 +22,14 @@ public class Ideia {
 
     public Setor getSetor() {
         return setor;
+    }
+
+    public FeedBack getFeedBack() {
+        return feedBack;
+    }
+
+    public void setFeedBack(FeedBack feedBack) {
+        this.feedBack = feedBack;
     }
 
     public void setSetor(Setor setor) {
@@ -74,6 +85,7 @@ public class Ideia {
                 ", data=" + data +
                 ", colaborador=" + colaborador +
                 ", setor=" + setor +
+                ", feedBack=" + feedBack +
                 '}';
     }
 }

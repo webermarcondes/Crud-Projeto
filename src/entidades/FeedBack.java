@@ -30,4 +30,13 @@ public class FeedBack {
     public void setData(LocalDate data) {
         this.data = data;
     }
+
+    @Override
+    public String toString() {
+        return "FeedBack{" +
+                "id='" + id + '\'' +
+                ", descricao='" + descricao + '\'' +
+                ", data=" + data +
+                '}';
+    }
 }

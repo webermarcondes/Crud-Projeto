@@ -1,10 +1,12 @@
 import entidades.Colaborador;
+import entidades.FeedBack;
 import entidades.FormatoSenha;
 import entidades.Ideia;
 import enums.Setor;
 import classesDAO.*;
 
 import javax.swing.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
@@ -17,7 +19,7 @@ public class Main {
 
     private static void menuInicial(){
 
-        String[] opcoesInicio = {"Login", "Cadastro", "Sair"};
+        String[] opcoesInicio = {"Login", "Sair"};
         int idOpInicio = JOptionPane.showOptionDialog(null, "Selecione a opção desejada", "Menu_Inicial", JOptionPane.INFORMATION_MESSAGE, JOptionPane.QUESTION_MESSAGE, null, opcoesInicio, opcoesInicio[0]);
 
         switch (idOpInicio) {
@@ -27,10 +29,6 @@ public class Main {
                 break;
 
             case 1:
-                menuCadastro();
-                break;
-
-            case 2:
                 System.exit(0);
                 break;
         }
@@ -150,7 +148,18 @@ public class Main {
 
     private static void feedbackIdeias(){
 
+        Ideia ideiaList = selecaoDeIdeias();
 
+        FeedBack feedBack = new FeedBack();
+        feedBack.setDescricao(JOptionPane.showInputDialog(null, "Digite a descricao do feedback: "));
+        ideiaList.setFeedBack(feedBack);
+        System.out.println(ideiaList);
+
+
+    }
+
+    private static void curitrIdeias(){
+        
     }
 
     private static void menuOpcoesAdmin() {
@@ -161,18 +170,14 @@ public class Main {
 
             case 0:
             menuEdicaoCadastro();
-        break;
-
-//            case 1:
-//                //realizarIdeais();
-//                break;
+            break;
 
             case 1:
                 visualizacaoDeIdeias(selecaoDeIdeias());
                 break;
 
             case 2:
-
+                feedbackIdeias();
                 break;
         }
     }
@@ -224,20 +229,24 @@ public class Main {
 
     private static void menuEdicaoCadastro(){
 
-        String[] opcoesMenu = {"Editar ", "Excluir", "Voltar"};
+        String[] opcoesMenu = {"Cadastrar","Editar ", "Excluir", "Voltar"};
         int selecao = JOptionPane.showOptionDialog(null, "Selecione a opção desejada", "Cadastros", JOptionPane.INFORMATION_MESSAGE, JOptionPane.QUESTION_MESSAGE, null, opcoesMenu, opcoesMenu[0]);
 
         switch (selecao){
 
             case 0:
-                editarColaborador(selecaoColaborador());
+                menuCadastro();
                 break;
 
             case 1:
-                excluirColaborador();
+                editarColaborador(selecaoColaborador());
                 break;
 
             case 2:
+                excluirColaborador();
+                break;
+
+            case 3:
                 menuOpcoesAdmin();
                 break;
         }
