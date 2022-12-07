@@ -54,12 +54,8 @@ public class Main {
         }
 
         else {
-            String[] opcoes = {"Sim", "Não"};
-            int idOP = JOptionPane.showOptionDialog(null, "Não há nenhum cadastro com o login e senha informado, deseja se cadastrar?", "Menu Login", JOptionPane.INFORMATION_MESSAGE, JOptionPane.QUESTION_MESSAGE, null,opcoes, opcoes[0]);
-
-            if (idOP == 0) {
-                menuCadastro();
-            }
+            JOptionPane.showMessageDialog(null, "USUÁRIO NÃO ENCONTRADO!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
+        menuLogin();
         }
     }
 
@@ -123,17 +119,19 @@ public class Main {
 
             case 0:
                 visualizarSetor();
+
                 break;
             case 1:
                 cadastroSetor();
+
                 break;
             case 2:
                 editarSetor();
+
                 break;
             case 3:
-                excluirSetor();
+                excluirSetor(selecaoSetor());
                 break;
-
         }
     }
 
@@ -161,7 +159,7 @@ public class Main {
                     break;
 
                 case 3:
-                    votarIdeia();
+                    votarIdeia(selecaoDeIdeias());
                     menuOpcoesColaborador(colaborador);
                     break;
             }
@@ -171,9 +169,9 @@ public class Main {
 
         Object[] selectionValues = getIdeiasDAO().findIdeiasInArray();
         String initialSelection = (String) selectionValues[0];
-        Object selection = JOptionPane.showInputDialog(null, "Selecione o colaborador para editar",
+        Object selection =  JOptionPane.showInputDialog(null, "Selecione o colaborador para editar",
                 "Colaboradores", JOptionPane.QUESTION_MESSAGE, null, selectionValues, initialSelection);
-        List<Ideia> ideiaList = getIdeiasDAO().buscarTodos();
+        List<Ideia> ideiaList = getIdeiasDAO().buscarPorTitulo(selection);
 
         return ideiaList.get(0);
     }
@@ -184,7 +182,7 @@ public class Main {
         String initialSelection = (String) selectionValues[0];
         Object selection = JOptionPane.showInputDialog(null, "Selecione o setor desejado!",
                 "Setores", JOptionPane.QUESTION_MESSAGE, null, selectionValues, initialSelection);
-        List<Setor> setorList = SetorDAO.buscarTodos();
+        List<Setor> setorList = SetorDAO.buscarPorTitulo(selection);
 
         return setorList.get(0);
     }
@@ -198,12 +196,13 @@ public class Main {
         JOptionPane.showMessageDialog(null, "Título: "+ideia.getTitulo() + "\n"
                 +"Setor: "+ ideia.getSetor() + "\n"
                 +"Descriçao: "+ ideia.getDescricao() + "\n"
-                +"Data: "+ ideia.getData());
+                +"Data: "+ ideia.getData()
+                +"Voto: " + ideia.getVoto()
+                +"FeedBack: " + ideia.getFeedBack());
     }
 
-    private static void votarIdeia(){
+    private static void votarIdeia(Ideia ideia){
 
-        Ideia ideia = selecaoDeIdeias();
         String[] selectionValues = {"LIKE", "DESLIKE"};
         String initialSelection = selectionValues[0];
         Object selection = JOptionPane.showInputDialog(null, "Selecione o colaborador para editar",
@@ -215,18 +214,16 @@ public class Main {
         }else {
             ideia.setVoto(Voto.DESLIKE);
         }
-
-        IdeiaDAO.salvarIdeia(ideia);
     }
 
-    private static void feedbackIdeias(){
+    private static void feedbackIdeias(Ideia ideia){
 
-        Ideia ideiaList = selecaoDeIdeias();
-
+        Date now = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         FeedBack feedBack = new FeedBack();
         feedBack.setDescricao(JOptionPane.showInputDialog(null, "Digite a descricao do feedback: "));
-        ideiaList.setFeedBack(feedBack);
-        System.out.println(ideiaList);
+        feedBack.setData(sdf.format(now));
+        ideia.setFeedBack(feedBack);
 
     }
 
@@ -252,7 +249,7 @@ public class Main {
                 break;
 
             case 3:
-                feedbackIdeias();
+                feedbackIdeias(selecaoDeIdeias());
                 menuOpcoesAdmin();
                 break;
         }
@@ -278,31 +275,25 @@ public class Main {
         String initialSelection = (String) selectionValues[0];
         Object selection = JOptionPane.showInputDialog(null, "Selecione o colaborador para editar",
                 "Colaboradores", JOptionPane.QUESTION_MESSAGE, null, selectionValues, initialSelection);
-        List<Colaborador> colaboradorList = getColaboradorDAO().buscarTodos();
+        List<Colaborador> colaboradorList = ColaboradorDAO.buscarPorNome(selection);
 
         return colaboradorList.get(0);
     }
 
-    private static Colaborador excluirColaborador(){
+    private static void excluirColaborador(Colaborador colaborador){
 
-        Object[] selectionValues = getColaboradorDAO().findColaboradorInArray();
-        String initialSelection = (String) selectionValues[0];
-        Object selection = JOptionPane.showInputDialog(null, "Selecione o colaborador para editar",
-                "Colaboradores", JOptionPane.QUESTION_MESSAGE, null, selectionValues, initialSelection);
-        List<Colaborador> colaboradorList = getColaboradorDAO().buscarTodos();
-
-        return colaboradorList.remove(0);
+        if(colaborador != null){
+        ColaboradorDAO.remover(colaborador);
+        }
+        else {
+            menuCadastro();
+        }
     }
 
-    private static Setor excluirSetor(){
+    private static void excluirSetor(Setor setor){
 
-        Object[] selectionValues = SetorDAO.findSetorInArray();
-        String initialSelection = (String) selectionValues[0];
-        Object selection = JOptionPane.showInputDialog(null, "Selecione o colaborador para editar",
-                "Colaboradores", JOptionPane.QUESTION_MESSAGE, null, selectionValues, initialSelection);
-        List<Setor> setorList = SetorDAO.buscarTodos();
+        SetorDAO.remover(setor);
 
-        return setorList.remove(0);
     }
 
     private static void realizarIdeais(){
@@ -315,31 +306,6 @@ public class Main {
         ideia.setDescricao(JOptionPane.showInputDialog(null, "Digite a ideia: " ));
         ideia.setData(sdf.format(now));
         IdeiaDAO.salvarIdeia(ideia);
-    }
-
-    private static void menuEdicaoSetor(){
-
-        String[] opcoesMenu = {"Cadastrar","Editar ", "Excluir", "Voltar"};
-        int selecao = JOptionPane.showOptionDialog(null, "Selecione a opção desejada", "Cadastros", JOptionPane.INFORMATION_MESSAGE, JOptionPane.QUESTION_MESSAGE, null, opcoesMenu, opcoesMenu[0]);
-
-        switch (selecao){
-
-            case 0:
-                menuCadastro();
-                break;
-
-            case 1:
-                editarColaborador(selecaoColaborador());
-                break;
-
-            case 2:
-                excluirColaborador();
-                break;
-
-            case 3:
-                menuOpcoesAdmin();
-                break;
-        }
     }
 
     private static void menuEdicaoCadastro(){
@@ -358,7 +324,7 @@ public class Main {
                 break;
 
             case 2:
-                excluirColaborador();
+                excluirColaborador(selecaoColaborador());
                 break;
 
             case 3:

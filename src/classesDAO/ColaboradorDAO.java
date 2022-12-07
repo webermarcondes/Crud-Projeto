@@ -23,6 +23,10 @@ public class ColaboradorDAO {
     public static void salvar(Colaborador colaborador) {
         colaboradores.add(colaborador);
     }
+    public static void remover(Object colaborador) {
+        colaboradores.remove(colaborador);
+    }
+
 
     public static Integer maiorIdCadastrado() {
         return colaboradores.get((colaboradores.size()-1)).getId();
@@ -52,5 +56,15 @@ public class ColaboradorDAO {
             colaboradorNome.add(colaborador1.getNome());
         }
         return colaboradorNome.toArray();
+    }
+
+    public static List<Colaborador> buscarPorNome(Object nome) {
+        List<Colaborador> colaboradorFiltrado = new ArrayList<>();
+        for (Colaborador busca : colaboradores){
+            if(busca.getNome().equals(nome)){
+                colaboradorFiltrado.add(busca);
+            }
+        }
+        return colaboradorFiltrado;
     }
 }

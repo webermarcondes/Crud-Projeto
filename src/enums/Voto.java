@@ -2,5 +2,6 @@ package enums;
 
 public enum Voto {
     LIKE,
-    DESLIKE
+    DESLIKE,
+    SEM_VOTOS
 }

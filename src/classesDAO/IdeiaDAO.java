@@ -17,19 +17,21 @@ public class IdeiaDAO {
     }
 
     public static Object[] findIdeiasInArray(){
-        List<Ideia> ideiaBusca = IdeiaDAO.buscarTodos();
+        //List<Ideia> ideiaBusca = IdeiaDAO.buscarTodos();
         List<String> ideiaBuscaTitulo = new ArrayList<>();
 
-        for (Ideia ideia1 : ideiaBusca) {
+        for (Ideia ideia1 : ideias) {
             ideiaBuscaTitulo.add(ideia1.getTitulo());
         }
         return ideiaBuscaTitulo.toArray();
     }
 
-    public List<Ideia> buscarPorTitulo(Ideia titulo) {
-        List<Ideia>ideiasFiltradas =new ArrayList<>();
+    public List<Ideia> buscarPorTitulo(Object titulo) {
+        List<Ideia>ideiasFiltradas = new ArrayList<>();
         for (Ideia busca : ideias){
-            ideiasFiltradas.add(titulo);
+            if(busca.getTitulo().equals(titulo)){
+            ideiasFiltradas.add(busca);
+            }
         }
         return ideiasFiltradas;
     }

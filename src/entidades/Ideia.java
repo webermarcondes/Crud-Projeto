@@ -39,6 +39,10 @@ public class Ideia {
         this.feedBack = feedBack;
     }
 
+    public void setFeedBackNull(String nullo) {
+        this.feedBack.setDescricao(nullo);
+    }
+
     public void setSetor(Setor setor) {
         this.setor = setor;
     }
