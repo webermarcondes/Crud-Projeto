@@ -1,7 +1,7 @@
 package classesDAO;
 
 import entidades.Colaborador;
-import enums.Setor;
+import entidades.Setor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,8 +11,11 @@ public class ColaboradorDAO {
     static List<Colaborador> colaboradores = new ArrayList<>();
 
     public static void carregarDados() {
-        Colaborador admin = new Colaborador(1, "admin", "admin", "12345678", Setor.SISTEMAS);
-        Colaborador colaborador = new Colaborador(2,"colaborador", "colaborador","12345678", Setor.COMERCIAL);
+        Setor setor = new Setor();
+        setor.setNomeSetor("COMERCIAL");
+        Colaborador admin = new Colaborador(1, "admin", "admin", "12345678", setor);
+        Setor setor2 = new Setor();
+        Colaborador colaborador = new Colaborador(2,"colaborador", "colaborador","12345678", setor2);
         salvar(colaborador);
         salvar(admin);
     }
