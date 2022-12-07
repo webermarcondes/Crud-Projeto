@@ -338,10 +338,6 @@ public class Main {
         return colaboradorDAO;
     }
 
-    private static boolean validaColaborador(boolean valida){
-        return valida;
-    }
-
     private static Colaborador validaLogin(Colaborador colaboradorLogin){
        Colaborador login = colaboradorLogin;
        return login;
