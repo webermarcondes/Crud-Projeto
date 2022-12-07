@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public class FeedBack {
     private String id;
     private String descricao;
-    private LocalDate data;
+    private String data;
 
     public String getId() {
         return id;
@@ -23,20 +23,19 @@ public class FeedBack {
         this.descricao = descricao;
     }
 
-    public LocalDate getData() {
+    public String getData() {
         return data;
     }
 
-    public void setData(LocalDate data) {
+    public void setData(String data) {
         this.data = data;
     }
 
     @Override
     public String toString() {
-        return "FeedBack{" +
-                "id='" + id + '\'' +
-                ", descricao='" + descricao + '\'' +
-                ", data=" + data +
-                '}';
+        return "FeedBack{" + "\n" +
+                "id='" + id + "\n" +
+                ", descricao='" + descricao + "\n" +
+                ", data=" + data;
     }
 }
