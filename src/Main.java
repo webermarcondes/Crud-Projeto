@@ -53,10 +53,17 @@ public class Main {
             menuInicial();
         }
 
-        else {
-            JOptionPane.showMessageDialog(null, "USUÁRIO NÃO ENCONTRADO!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
-        menuLogin();
-        }
+      //  else {
+//<<<<<<< main
+//            JOptionPane.showMessageDialog(null, "USUÁRIO NÃO ENCONTRADO!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
+ //       menuLogin();
+//=======
+//
+//            JOptionPane.showMessageDialog(null,"Usuário inválido!", "ERRO", 0);
+//                menuInicial();
+///
+///>>>>>>> main
+       // }
     }
 
     private static void menuCadastro() {
