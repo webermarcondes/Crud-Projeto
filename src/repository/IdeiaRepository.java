@@ -10,8 +10,8 @@ import java.sql.SQLException;
 public class IdeiaRepository {
 
     public static Connection getConnection () throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.jdbc.Driver");
-        String url = "jbdc:mysql://tulioBanco:3306/atividade";
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        String url = "jbdc:mysql://tulioBanco:3306/projetobancodedados";
         Connection connection = DriverManager.getConnection(url,"root", "");
 
         return connection;

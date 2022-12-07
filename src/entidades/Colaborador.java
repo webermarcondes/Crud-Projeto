@@ -1,10 +1,5 @@
 package entidades;
 
-import enums.Setor;
-
-import java.util.ArrayList;
-import java.util.List;
-
 public class Colaborador {
     private Integer id;
     private String nome;
@@ -13,8 +8,7 @@ public class Colaborador {
     private Setor setor;
 
 
-
-    public Colaborador() {
+    public Colaborador(){
 
     }
 

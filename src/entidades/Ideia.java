@@ -1,8 +1,6 @@
 package entidades;
 
-import enums.Setor;
-
-import java.time.LocalDate;
+import enums.Voto;
 
 public class Ideia {
 
@@ -19,6 +17,14 @@ public class Ideia {
 
     public Ideia() {
 
+    }
+
+    public Voto getVoto() {
+        return voto;
+    }
+
+    public void setVoto(Voto voto) {
+        this.voto = voto;
     }
 
     public Setor getSetor() {
