@@ -1,37 +1,78 @@
 package entidades;
 
-import enums.Setor;
+import enums.Voto;
 
 import java.time.LocalDate;
 
 public class Ideia {
 
-    private String id;
+    private Integer id;
     private String titulo;
     private String descricao;
-    private LocalDate data;
+    private String data;
+
     private Colaborador colaborador;
     private Setor setor;
 
+    private String feedback="";
+    private Voto voto;
+    private String status;
+
+
+
     public Ideia() {
 
+    }
+
+//    public LocalDate getDate() {
+//        return date;
+//    }
+//
+//    public void setDate(LocalDate date) {
+//        this.date = date;
+//    }
+
+    public Voto getVoto() {
+        return voto;
+    }
+
+    public void setVoto(Voto voto) {
+        this.voto = voto;
     }
 
     public Setor getSetor() {
         return setor;
     }
 
+
+    public String getStatus() {
+        return status;
+    }
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getFeedback() {
+        return feedback;
+    }
+
+    public void setFeedback(String feedback) {
+        this.feedback = feedback;
+    }
+
     public void setSetor(Setor setor) {
         this.setor = setor;
     }
 
-    public String getId() {
-        return id;
-    }
 
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getTitulo() {
         return titulo;
@@ -49,11 +90,11 @@ public class Ideia {
         this.descricao = descricao;
     }
 
-    public LocalDate getData() {
+    public String getData() {
         return data;
     }
 
-    public void setData(LocalDate data) {
+    public void setData(String data) {
         this.data = data;
     }
 
@@ -74,6 +115,7 @@ public class Ideia {
                 ", data=" + data +
                 ", colaborador=" + colaborador +
                 ", setor=" + setor +
+                ", feedBack=" + feedback +
                 '}';
     }
 }

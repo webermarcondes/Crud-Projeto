@@ -1,6 +1,8 @@
 package entidades;
 
-public class Colaborador {
+import enums.Setor;
+
+public class Colaborador2 {
     private Integer id;
     private String nome;
     private String login;
@@ -8,16 +10,17 @@ public class Colaborador {
     private Setor setor;
 
 
-    public Colaborador(){
+
+    public Colaborador2() {
 
     }
 
-    public Colaborador(Integer id, String nome, String login, String senha, Setor setor) {
+    public Colaborador2(Integer id, String nome, String login, String senha, Setor setor) {
         this.id = id;
         this.nome = nome;
         this.login = login;
         this.senha = senha;
-        this.setor = setor;
+
     }
 
     public Integer getId() {
