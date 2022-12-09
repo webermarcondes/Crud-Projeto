@@ -1,8 +1,8 @@
 package classesDAO;
 
-import entidades.Ideia;
 import entidades.Setor;
 
+import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +20,7 @@ public class SetorDAO {
 
 
 
-    public static void salvarBD(Setor setor) throws SQLException, ClassNotFoundException {
+    public static void salvar(Setor setor) throws SQLException, ClassNotFoundException {
 
         Connection connection = getConnection();
         PreparedStatement stmt = connection.prepareStatement("insert into setor(nome) values (?)");
@@ -33,7 +33,7 @@ public class SetorDAO {
 
 
 
-    public static void excluirBD(Integer id) throws  SQLException, ClassNotFoundException {
+    public static void excluir(Integer id) throws  SQLException, ClassNotFoundException {
         Connection connection = getConnection();
         PreparedStatement stmt = connection.prepareStatement("delete from setor where idsetor = ?");
         stmt.setInt(1, id);
@@ -42,12 +42,12 @@ public class SetorDAO {
             stmt.executeUpdate();
         }
         catch(SQLIntegrityConstraintViolationException e) {
-            System.out.println("não é possível apagar este setor pois ele tem ideias e colaboradores que o utilizam");
-        }
+            JOptionPane.showMessageDialog(null, "Não é possível excluir este setor, há registros de colaboradores e ideia que o utilizam", "Erro de exclusão",JOptionPane.ERROR_MESSAGE);
+             }
         connection.close();
     }
 
-    public static void editarBD(Setor setor) throws SQLException, ClassNotFoundException {
+    public static void editar(Setor setor) throws SQLException, ClassNotFoundException {
         Connection connection = getConnection();
         PreparedStatement stmt = connection.prepareStatement("update setor set nome =? where idsetor=?");
 
@@ -58,7 +58,7 @@ public class SetorDAO {
         connection.close();
     }
 
-    public static List<Setor> BuscarTodos() throws  SQLException, ClassNotFoundException {
+    public static List<Setor> buscarTodos() throws  SQLException, ClassNotFoundException {
         List<Setor> setore = new ArrayList<>();
         Connection connection = getConnection();
         PreparedStatement stmt = connection.prepareStatement("select * from setor");
@@ -75,22 +75,24 @@ public class SetorDAO {
 
 
 
-    public static Setor BuscarPorId(Integer id) throws SQLException, ClassNotFoundException {
+    public static Setor buscarPorId(Integer id) throws SQLException, ClassNotFoundException {
         Connection connection = getConnection();
 
         PreparedStatement stmt = connection.prepareStatement("select * from setor where idsetor=?");
         stmt.setInt(1, id);
 
         ResultSet resultSet = stmt.executeQuery();
-        resultSet.next();
+
         Setor setor = new Setor();
-        setor.setIdSetor(resultSet.getInt(1));
-        setor.setNomeSetor(resultSet.getString(2));
-        System.out.println(setor);
+        if (resultSet.next()) {
+            setor.setIdSetor(resultSet.getInt(1));
+            setor.setNomeSetor(resultSet.getString(2));
+            System.out.println(setor);
+        }
         return setor;
     }
 
-    public static Integer BuscarIdPorNome(String nome) throws  SQLException, ClassNotFoundException {
+    public static Integer buscarIdPorNome(String nome) throws  SQLException, ClassNotFoundException {
         Connection connection = getConnection();
 
         PreparedStatement stmt = connection.prepareStatement("select * from setor where nome = ?");
@@ -103,7 +105,7 @@ public class SetorDAO {
         return id;
     }
 
-    public static Object[] BuscarNomes() throws SQLException, ClassNotFoundException {
+    public static Object[] buscarNomes() throws SQLException, ClassNotFoundException {
 
         List<String> nomeSetores = new ArrayList<>();
 

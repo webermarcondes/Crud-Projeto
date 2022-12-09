@@ -1,5 +1,4 @@
 package classesDAO;
-import entidades.Colaborador;
 import entidades.Ideia;
 
 import java.sql.*;
@@ -19,7 +18,7 @@ public class IdeiaDAO {
     }
 
 
-    public static void salvarIdeiaBD(Ideia ideia) throws SQLException, ClassNotFoundException {
+    public static void salvarIdeia(Ideia ideia) throws SQLException, ClassNotFoundException {
 
 
         Connection connection = getConnection();
@@ -37,7 +36,7 @@ public class IdeiaDAO {
         connection.close();
     }
 
-    public static void editarIdeiaBD(Ideia ideia) throws  SQLException, ClassNotFoundException {
+    public static void editarIdeia(Ideia ideia) throws  SQLException, ClassNotFoundException {
 
         Connection connection = getConnection();
 
@@ -69,7 +68,7 @@ public class IdeiaDAO {
     }
 
 
-    public  static List<Ideia> buscarTodosBD() throws SQLException, ClassNotFoundException {
+    public  static List<Ideia> buscarTodos() throws SQLException, ClassNotFoundException {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
@@ -86,9 +85,10 @@ public class IdeiaDAO {
             ideia.setData(resultSet.getString(4));
             ideia.setFeedback(resultSet.getString(5));
             ideia.setStatus(resultSet.getString(6));
-            ideia.setColaborador(ColaboradorDAO.BuscarPorId(resultSet.getInt(7)));
+            ideia.setColaborador(ColaboradorDAO.buscarPorID(resultSet.getInt(7)));
 
-            ideia.setSetor(SetorDAO.BuscarPorId(resultSet.getInt(8)));
+            ideia.setSetor(SetorDAO.buscarPorId(resultSet.getInt(8)));
+
 
             ideias.add(ideia);
 
@@ -99,7 +99,7 @@ public class IdeiaDAO {
     }
 
 
-    public Object[] BuscarTitulos() throws  SQLException, ClassNotFoundException {
+    public Object[] buscarTitulos() throws  SQLException, ClassNotFoundException {
         List<String> titulos = new ArrayList<>();
         Connection connection = getConnection();
         PreparedStatement stmt = connection.prepareStatement("select titulo from ideia");
@@ -146,29 +146,12 @@ public class IdeiaDAO {
         ideia.setData(resultSet.getString(4));
         ideia.setFeedback(resultSet.getString(5));
         ideia.setStatus(resultSet.getString(6));
-        ideia.setColaborador(ColaboradorDAO.BuscarPorId(resultSet.getInt(7)));
-        ideia.setSetor(SetorDAO.BuscarPorId(resultSet.getInt(8)));
+        ideia.setColaborador(ColaboradorDAO.buscarPorID(resultSet.getInt(7)));
+        ideia.setSetor(SetorDAO.buscarPorId(resultSet.getInt(8)));
         return ideia;
     }
 
 
-    public static Boolean verificarFeedBack(Ideia ideia) throws SQLException, ClassNotFoundException{
-
-        Connection connection = getConnection();
-        PreparedStatement stmt = connection.prepareStatement("select feedback from ideia where idideia=?");
-
-        stmt.setInt(1, ideia.getId());
-
-        ResultSet resultSet = stmt.executeQuery();
-
-
-        if (resultSet.next()) {
-
-            return true;
-        }
-
-        return false;
-    }
     }
 
 

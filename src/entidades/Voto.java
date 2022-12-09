@@ -40,4 +40,11 @@ public class Voto {
     public void setColaborador(Colaborador colaborador) {
         this.colaborador = colaborador;
     }
+
+    @Override
+    public String toString() {
+        return "Voto{" +
+                "opcaoVoto=" + opcaoVoto +
+                '}';
+    }
 }

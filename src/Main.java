@@ -6,16 +6,39 @@ import classesDAO.SetorDAO;
 import classesDAO.VotoDAO;
 import entidades.*;
 import enums.OpcaoVoto;
-//import enums.Voto;
 import javax.swing.*;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+
+import tableForms.RelatorioIdeias;
+
 
 public class Main {
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
 
+        System.out.println(VotoDAO.contarVotosPorOpcaoNaIdeia(OpcaoVoto.DESLIKE, 1));
+        // CADASTRO FIXO DO ADMIN
+        if (SetorDAO.buscarPorId(1).getIdSetor() == null) {
+            Setor setor = new Setor();
+            setor.setIdSetor(1);
+            setor.setNomeSetor("ADM");
+
+            SetorDAO.salvar(setor);
+
+            if (ColaboradorDAO.buscarPorID(1).getId() == null) {
+                Colaborador colaborador = new Colaborador();
+                colaborador.setNome("Admin");
+                colaborador.setLogin("ADMIN");
+                colaborador.setSenha("12345678");
+                colaborador.setSetor(setor);
+
+                ColaboradorDAO.salvar(colaborador);
+            }
+        }  // CADASTRO FIXO DO ADMIN
 
         menuInicial();
 
@@ -38,36 +61,32 @@ public class Main {
         }
     }
     private static void menuLogin() throws SQLException, ClassNotFoundException {
+        String login = "";
+        login = JOptionPane.showInputDialog(null, "Digite seu login");
 
-        String login = JOptionPane.showInputDialog(null, "Digite seu login");
-        String senha = JOptionPane.showInputDialog(null, "Digite sua Senha de 8 caracteres númericos");
+        String senha = "";
+        senha = JOptionPane.showInputDialog(null, "Digite sua Senha de 8 caracteres númericos");
 
+        System.out.println(login + "   " + senha);
         Colaborador colaborador = ColaboradorDAO.buscarPorLoginESenhaBD(login, senha);
-
         if (colaborador != null) {
-            if (colaborador.getNome().equals("admin")) {
+            if (colaborador.getNome().equals("Admin")) {
                 menuOpcoesAdmin();
                 validaLogin(null);
             }
             else {
-                menuOpcoesColaborador(colaborador);
-
-            }
+            menuOpcoesColaborador(colaborador);
+        }
             JOptionPane.showMessageDialog(null, "USUÁRIO DESCONECTADO COM SUCESSO!", "Mensagem de Saída", JOptionPane.INFORMATION_MESSAGE);
             menuInicial();
         }
 
-      //  else {
-//<<<<<<< main
-//            JOptionPane.showMessageDialog(null, "USUÁRIO NÃO ENCONTRADO!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
- //       menuLogin();
-//=======
-//
-//            JOptionPane.showMessageDialog(null,"Usuário inválido!", "ERRO", 0);
-//                menuInicial();
-///
-///>>>>>>> main
-       // }
+        else {
+            JOptionPane.showMessageDialog(null, "Não existe nenhum colaborador cadastrado com este dados, tente novamente", "Erro de dados não encontrados",JOptionPane.ERROR_MESSAGE);
+            menuInicial();
+        }
+
+
     }
 
     private static void menuCadastro() throws  SQLException, ClassNotFoundException {
@@ -75,13 +94,18 @@ public class Main {
         Colaborador colaborador = new Colaborador();
 
         while (true) {
-            colaborador.setNome(JOptionPane.showInputDialog(null, "Digite seu nome", "Cadastro de colaborador",JOptionPane.INFORMATION_MESSAGE));
+            colaborador.setNome(JOptionPane.showInputDialog(null, "Digite o nome: "));
 
-            if (colaborador.getNome().length() == 0) {
-                JOptionPane.showMessageDialog(null, "Erro! nome é um dado obrigatório", "Erro de dado Obrigatório", JOptionPane.ERROR_MESSAGE);
-                continue;
+            if (colaborador.getNome().equals("Admin")) {
+                JOptionPane.showMessageDialog(null, "Erro! não é possível cadastrar um colaborador com este nome");
             }
-            break;
+            else if(colaborador.getNome().length() == 0) {
+                JOptionPane.showMessageDialog(null, "Erro! nome é um dado obrigatório", "erro de dado obrigatório", JOptionPane.ERROR_MESSAGE);
+            }
+
+            else if (colaborador.getNome().length() > 0) {
+                break;
+            }
         }
 
         while (true) {
@@ -108,7 +132,7 @@ public class Main {
         JOptionPane.showMessageDialog(null, "COLABORADOR CADASTRADO COM SUCESSO!", "Cadastro de colaborador", JOptionPane.INFORMATION_MESSAGE);
 
 
-        ColaboradorDAO.salvarBD(colaborador);
+        ColaboradorDAO.salvar(colaborador);
 
     }
 
@@ -127,7 +151,7 @@ public class Main {
         } while (setor.getNomeSetor().length() == 0);
 
 
-        SetorDAO.salvarBD(setor);
+        SetorDAO.salvar(setor);
     }
 
     private static void menuCadastroSetor() throws  SQLException, ClassNotFoundException{
@@ -162,7 +186,7 @@ public class Main {
             switch (selecao){
 
                 case 0:
-                    editarColaborador(colaborador);
+                    editarColaborador(colaborador, false);
                     menuOpcoesColaborador(colaborador);
 
                     break;
@@ -173,8 +197,8 @@ public class Main {
                     break;
 
                 case 2:
-                    visualizacaoDeIdeias(selecaoDeIdeias());
-                    menuOpcoesColaborador(colaborador);
+                    visualizacaoDeIdeias();
+                    //menuOpcoesColaborador(colaborador);
                     break;
 
                 case 3:
@@ -186,7 +210,7 @@ public class Main {
 
     private static Ideia selecaoDeIdeias() throws SQLException, ClassNotFoundException{
 
-        Object[] selectionValues = getIdeiasDAO().BuscarTitulos();
+        Object[] selectionValues = getIdeiasDAO().buscarTitulos();
         String initialSelection = (String) selectionValues[0];
         Object selection =  JOptionPane.showInputDialog(null, "Selecione a ideia desejada",
                 "Seleção de ideias", JOptionPane.QUESTION_MESSAGE, null, selectionValues, initialSelection);
@@ -198,23 +222,23 @@ public class Main {
 
     public static Setor selecaoSetor() throws  SQLException, ClassNotFoundException{
 
-        Object[] selectionValues = SetorDAO.BuscarNomes();
+        Object[] selectionValues = SetorDAO.buscarNomes();
 
         String initialSelection = (String) selectionValues[0];
         Object selection = JOptionPane.showInputDialog(null, "Selecione o setor desejado!",
                 "Seleção de setores", JOptionPane.QUESTION_MESSAGE, null, selectionValues, initialSelection);
 
 
-        Integer id = SetorDAO.BuscarIdPorNome(selection.toString());
-        return SetorDAO.BuscarPorId(id);
+        Integer id = SetorDAO.buscarIdPorNome(selection.toString());
+        return SetorDAO.buscarPorId(id);
     }
 
     public static void visualizarSetor() throws SQLException, ClassNotFoundException{
-        JOptionPane.showMessageDialog(null, "Setores: " + SetorDAO.BuscarTodos());
-        System.out.println(VotoDAO.contarVotosPorOpcao(OpcaoVoto.LIKE));
+        JOptionPane.showMessageDialog(null, "Setores: " + SetorDAO.buscarTodos());
+
     }
 
-    private static void visualizacaoDeIdeias(Ideia ideia) throws SQLException, ClassNotFoundException{
+    private static void visualizacaoDeIdeias() throws SQLException, ClassNotFoundException{
 
 //        JOptionPane.showMessageDialog(null, "Título: "+ideia.getTitulo() + "\n"
 //                +"Setor: "+ ideia.getSetor() + "\n"
@@ -222,7 +246,9 @@ public class Main {
 //                +"Data: "+ ideia.getData()
 //                +"Voto: " + ideia.getVoto()
 //                +"FeedBack: " + ideia.getFeedBack());
-        JOptionPane.showMessageDialog(null, "Ideias: " + IdeiaDAO.buscarTodosBD());
+        //JOptionPane.showMessageDialog(null, "Ideias: " + IdeiaDAO.buscarTodosBD());
+        RelatorioIdeias.emitirRelatorio(IdeiaDAO.buscarTodos());
+
     }
 
     private static void votarIdeia(Colaborador colaborador) throws  SQLException, ClassNotFoundException{
@@ -270,24 +296,23 @@ public class Main {
                     VotoDAO.editar(voto);
                 }
             }
-
-
          }
     }
 
     private static void feedbackIdeias(Ideia ideia) throws  SQLException, ClassNotFoundException{
 
-        String[] opcoes = {"SIM", "NÃO"};
-        int idOP = 0;
-        String textoFeedback = "";
-        if (IdeiaDAO.verificarFeedBack(ideia)) {
-            idOP = JOptionPane.showOptionDialog(null, "A ideia selecionada já tem um feedback, deseja altera-lo?", "Definição de feedback", JOptionPane.INFORMATION_MESSAGE, JOptionPane.QUESTION_MESSAGE, null, opcoes, opcoes[0]);
-            textoFeedback = "hjsbcsjv";
-        }
-
-        if (idOP == 0) {
-            ideia.setFeedback(JOptionPane.showInputDialog(null, "Digite o feedback da ideia:", textoFeedback));
+        if (ideia.getFeedback().equals("")) {
+            ideia.setFeedback(JOptionPane.showInputDialog(null,"Digite o feedback da ideia!", ideia.getFeedback()));
             IdeiaDAO.definirFeedbackIdeia(ideia);
+        }else{
+
+            String[] opcoes = {"SIM", "NÃO"};
+            int idOp = JOptionPane.showOptionDialog(null, "Ideia ja possui um feedback deseja alterar?", "Alteração de opção de feedback", JOptionPane.INFORMATION_MESSAGE, JOptionPane.QUESTION_MESSAGE, null, opcoes, opcoes[0]);
+
+            if (idOp == 0){
+                ideia.setFeedback(JOptionPane.showInputDialog(null,"Digite o feedback da ideia!" , ideia.getFeedback()));
+                IdeiaDAO.definirFeedbackIdeia(ideia);
+            }
         }
     }
 
@@ -298,7 +323,7 @@ public class Main {
         switch (selecao){
 
             case 0:
-            menuEdicaoCadastro();
+            menuEdicaoCadastro(true);
             menuOpcoesAdmin();
             break;
 
@@ -308,7 +333,7 @@ public class Main {
                 break;
 
             case 2:
-                visualizacaoDeIdeias(selecaoDeIdeias());
+                visualizacaoDeIdeias();
                 menuOpcoesAdmin();
                 break;
 
@@ -319,21 +344,30 @@ public class Main {
         }
     }
 
-    private static void editarColaborador(Colaborador colaborador) throws  SQLException, ClassNotFoundException{
+    private static void editarColaborador(Colaborador colaborador, boolean admLogado) throws  SQLException, ClassNotFoundException{
 
         String nome = "";
         String login = "";
         String senha = "";
+        Setor setor;
 
-        while (true) {
-            nome = JOptionPane.showInputDialog(null, "Digite o nome: " , colaborador.getNome());
+        if (!colaborador.getNome().equals("Admin")) {
+            while (true) {
+                nome = JOptionPane.showInputDialog(null, "Digite o nome: ", colaborador.getNome());
 
-            if (nome.length() > 0) {
-                break;
-           }
-            JOptionPane.showMessageDialog(null, "Erro! nome é um dado obrigatório", "erro de dado obrigatório", JOptionPane.ERROR_MESSAGE);
+                if (nome.equals("Admin")) {
+                    JOptionPane.showMessageDialog(null, "Erro! não é possível cadastrar um colaborador com este nome");
+                }
+                else if(nome.length() == 0) {
+                    JOptionPane.showMessageDialog(null, "Erro! nome é um dado obrigatório", "erro de dado obrigatório", JOptionPane.ERROR_MESSAGE);
+                }
+
+                else if (nome.length() > 0) {
+                    break;
+                }
+            }
+            colaborador.setNome(nome);
         }
-        colaborador.setNome(nome);
 
 
         while (true) {
@@ -356,6 +390,22 @@ public class Main {
         }
         colaborador.setSenha(senha);
 
+
+        if (admLogado) {
+            List<String> nomeSetores = new ArrayList<>();
+            Object setorSelecionado  = new Object();
+            for (Object nomeSetor: SetorDAO.buscarTodos()) {
+                nomeSetores.add(nomeSetor.toString());
+
+                if (colaborador.getSetor().getNomeSetor().equals(nomeSetor.toString())) {
+                    setorSelecionado = nomeSetor;
+                }
+             }
+
+            Object nomeSetor = JOptionPane.showInputDialog(null, "Selecione o setor desejado", "Alteração dados cadastrais", JOptionPane.INFORMATION_MESSAGE,null,nomeSetores.toArray(), setorSelecionado);
+            colaborador.setSetor(SetorDAO.buscarPorId(SetorDAO.buscarIdPorNome(nomeSetor.toString())));
+        }
+
         ColaboradorDAO.editar(colaborador);
 
         JOptionPane.showMessageDialog(null, "DADOS EDITADOS SALVOS COM SUCESSO!", "Aviso!", JOptionPane.INFORMATION_MESSAGE);
@@ -365,31 +415,36 @@ public class Main {
 
         Setor setor = selecaoSetor();
         setor.setNomeSetor(JOptionPane.showInputDialog(null, "Digite o nome do setor: " , setor.getNomeSetor()));
-        SetorDAO.editarBD(setor);
+        SetorDAO.editar(setor);
 
         JOptionPane.showMessageDialog(null, "DADOS EDITADOS SALVOS COM SUCESSO!", "Aviso!", JOptionPane.INFORMATION_MESSAGE);
     }
 
     private static Colaborador selecaoColaborador() throws  SQLException, ClassNotFoundException{
 
-        Object[] selectionValues = getColaboradorDAO().BuscarNomes().toArray();
+        Object[] selectionValues = getColaboradorDAO().buscarNomes().toArray();
         String initialSelection = (String) selectionValues[0];
         Object selection = JOptionPane.showInputDialog(null, "Selecione o colaborador para editar",
                 "Colaboradores", JOptionPane.QUESTION_MESSAGE, null, selectionValues, initialSelection);
 
-        Integer id = ColaboradorDAO.BuscarIdPorNome(selection.toString());
-        return ColaboradorDAO.BuscarPorId(id);
+        Integer id = ColaboradorDAO.buscarIdPorNome(selection.toString());
+        return ColaboradorDAO.buscarPorID(id);
     }
 
     private static void excluirColaborador(Colaborador colaborador) throws SQLException, ClassNotFoundException{
+        int id = colaborador.getId();
+        if (id > 1) {
+            ColaboradorDAO.excluir(colaborador.getId());
+        }
 
-        ColaboradorDAO.excluirBD(colaborador.getId());
-
+        else {
+            JOptionPane.showMessageDialog(null, "não é possível excluir o cadastro do administrador");
+        }
     }
 
     private static void excluirSetor(Setor setor) throws SQLException, ClassNotFoundException{
 
-        SetorDAO.excluirBD(setor.getIdSetor());
+        SetorDAO.excluir(setor.getIdSetor());
 
     }
 
@@ -407,10 +462,10 @@ public class Main {
         ideia.setColaborador(colaborador);
         ideia.setSetor(selecaoSetor());
 
-        IdeiaDAO.salvarIdeiaBD(ideia);
+        IdeiaDAO.salvarIdeia(ideia);
     }
 
-    private static void menuEdicaoCadastro() throws SQLException, ClassNotFoundException{
+    private static void menuEdicaoCadastro(Boolean admLogado) throws SQLException, ClassNotFoundException{
 
         String[] opcoesMenu = {"Cadastrar","Editar ", "Excluir", "Voltar"};
         int selecao = JOptionPane.showOptionDialog(null, "Selecione a opção desejada", "Cadastros", JOptionPane.INFORMATION_MESSAGE, JOptionPane.QUESTION_MESSAGE, null, opcoesMenu, opcoesMenu[0]);
@@ -422,7 +477,7 @@ public class Main {
                 break;
 
             case 1:
-                editarColaborador(selecaoColaborador());
+                editarColaborador(selecaoColaborador(), true);
                 break;
 
             case 2:

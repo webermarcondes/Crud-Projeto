@@ -1,8 +1,8 @@
 package classesDAO;
 
 import entidades.Colaborador;
-import entidades.Setor;
 
+import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ public class ColaboradorDAO {
     }
 
 
-    public static void salvarBD(Colaborador colaborador) throws  SQLException, ClassNotFoundException{
+    public static void salvar(Colaborador colaborador) throws  SQLException, ClassNotFoundException{
 
         Connection connection = getConnection();
         PreparedStatement stmt = connection.prepareStatement("insert into colaborador(nome, login, senha, idsetor) values (?, ?, ?, ?)");
@@ -34,7 +34,7 @@ public class ColaboradorDAO {
         connection.close();
     }
 
-    public static void excluirBD(Integer id) throws  SQLException, ClassNotFoundException {
+    public static void excluir(Integer id) throws  SQLException, ClassNotFoundException {
         Connection connection = getConnection();
         PreparedStatement stmt = connection.prepareStatement("delete from colaborador where idcolaborador = ?");
         stmt.setInt(1, id);
@@ -42,7 +42,7 @@ public class ColaboradorDAO {
             stmt.executeUpdate();
         }
         catch(SQLIntegrityConstraintViolationException e) {
-            System.out.println("não é possível apagar este colaborador pois ele tem ideias cadastradas");
+            JOptionPane.showMessageDialog(null,"não é possível apagar este colaborador pois ele tem ideias e/ou votos cadastrados", "erro de exclusão", JOptionPane.ERROR_MESSAGE);
         }
         connection.close();
     }
@@ -61,27 +61,27 @@ public class ColaboradorDAO {
         connection.close();
     }
 
-    public static Colaborador BuscarPorId(Integer id) throws SQLException, ClassNotFoundException {
+    public static Colaborador buscarPorID(Integer id) throws SQLException, ClassNotFoundException {
         Connection connection = getConnection();
 
         PreparedStatement stmt = connection.prepareStatement("select * from colaborador where idcolaborador=?");
         stmt.setInt(1, id);
 
         ResultSet resultSet = stmt.executeQuery();
-        resultSet.next();
-
         Colaborador colaborador = new Colaborador();
-        colaborador.setId(resultSet.getInt(1));
-        colaborador.setNome(resultSet.getString(2));
-        colaborador.setLogin(resultSet.getString(3));
-        colaborador.setSenha(resultSet.getString(4));
-        colaborador.setSetor(classesDAO.SetorDAO.BuscarPorId(resultSet.getInt(5)));
+        if (resultSet.next()) {
 
+            colaborador.setId(resultSet.getInt(1));
+            colaborador.setNome(resultSet.getString(2));
+            colaborador.setLogin(resultSet.getString(3));
+            colaborador.setSenha(resultSet.getString(4));
+            colaborador.setSetor(classesDAO.SetorDAO.buscarPorId(resultSet.getInt(5)));
 
+        }
         return colaborador;
     }
 
-    public static List<Colaborador> buscarTodosBD() throws  SQLException, ClassNotFoundException{
+    public static List<Colaborador> buscarTodos() throws  SQLException, ClassNotFoundException{
         List<Colaborador> colabs = new ArrayList<>();
         Connection connection = getConnection();
         PreparedStatement stmt = connection.prepareStatement("select * from colaborador");
@@ -93,7 +93,7 @@ public class ColaboradorDAO {
             colab.setNome(resultSet.getString(2));
             colab.setLogin(resultSet.getString(3));
             colab.setSenha(resultSet.getString(4));
-            colab.setSetor(classesDAO.SetorDAO.BuscarPorId(resultSet.getInt(5)));
+            colab.setSetor(classesDAO.SetorDAO.buscarPorId(resultSet.getInt(5)));
 
             colabs.add(colab);
 
@@ -123,7 +123,7 @@ public class ColaboradorDAO {
                 colab.setNome(resultSet.getString(2));
                 colab.setLogin(resultSet.getString(3));
                 colab.setSenha(resultSet.getString(4));
-                colab.setSetor(classesDAO.SetorDAO.BuscarPorId(resultSet.getInt(5)));
+                colab.setSetor(classesDAO.SetorDAO.buscarPorId(resultSet.getInt(5)));
 
             }
 //            if (result.getString("login").toString().equals(login) && result.getString("senha").equals(colab.getSenha())) {
@@ -136,7 +136,7 @@ public class ColaboradorDAO {
         return colab;
     }
 
-    public static List<String> BuscarNomes() throws SQLException, ClassNotFoundException {
+    public static List<String> buscarNomes() throws SQLException, ClassNotFoundException {
 
         List<String> nomeColaboradores = new ArrayList<>();
 
@@ -156,7 +156,7 @@ public class ColaboradorDAO {
 
     }
 
-    public static Integer BuscarIdPorNome(String nome) throws  SQLException, ClassNotFoundException {
+    public static Integer buscarIdPorNome(String nome) throws  SQLException, ClassNotFoundException {
         Connection connection = getConnection();
 
         PreparedStatement stmt = connection.prepareStatement("select * from colaborador where nome = ?");

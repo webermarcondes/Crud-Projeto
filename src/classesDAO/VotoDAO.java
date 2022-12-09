@@ -56,19 +56,20 @@ public class VotoDAO {
         if (resultSet.next()) {
             voto.setId(resultSet.getInt(1));
             voto.setOpcaoVoto(OpcaoVoto.getOpcaoByDescricao(resultSet.getString(2)));
-            voto.setColaborador(ColaboradorDAO.BuscarPorId(resultSet.getInt(3)));
+            voto.setColaborador(ColaboradorDAO.buscarPorID(resultSet.getInt(3)));
         }
 
         return voto;
 
     }
 
-    public static Integer contarVotosPorOpcao(OpcaoVoto opcao) throws SQLException, ClassNotFoundException{
+    public static Integer contarVotosPorOpcaoNaIdeia(OpcaoVoto opcao, Integer idIdeia) throws SQLException, ClassNotFoundException{
 
         Connection connection = getConnection();
-        PreparedStatement stmt = connection.prepareStatement("select count(*) from voto where opcao=?");
+        PreparedStatement stmt = connection.prepareStatement("select count(*) from voto where opcao=? and idideia=?");
 
         stmt.setString(1, opcao.toString());
+        stmt.setInt(2, idIdeia);
 
         ResultSet resultSet = stmt.executeQuery();
         resultSet.next();
@@ -78,7 +79,6 @@ public class VotoDAO {
         connection.close();
         return  qtdeVotos;
     }
-
     public static Boolean verificarVotoNaIdeia(Ideia ideia, Colaborador colaborador) throws SQLException, ClassNotFoundException {
 
         Connection connection = getConnection();

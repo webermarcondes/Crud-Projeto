@@ -1,9 +1,5 @@
 package entidades;
 
-import enums.Voto;
-
-import java.time.LocalDate;
-
 public class Ideia {
 
     private Integer id;
