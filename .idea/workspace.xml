@@ -65,6 +65,17 @@
     <option name="localTasksCounter" value="2" />
     <servers />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Removendo" />
     <option name="LAST_COMMIT_MESSAGE" value="Removendo" />
@@ -74,7 +85,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/Main.java</url>
-          <line>213</line>
+          <line>211</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>

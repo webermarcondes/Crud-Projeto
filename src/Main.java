@@ -3,21 +3,20 @@ import classesDAO.ColaboradorDAO;
 import classesDAO.IdeiaDAO;
 
 import classesDAO.SetorDAO;
+import classesDAO.VotoDAO;
 import entidades.*;
-import enums.Voto;
-
+import enums.OpcaoVoto;
+//import enums.Voto;
 import javax.swing.*;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
 
-        ColaboradorDAO.carregarDados();
-        System.out.println(ColaboradorDAO.buscarTodosBD());
+
         menuInicial();
 
     }
@@ -108,7 +107,7 @@ public class Main {
         colaborador.setSetor(selecaoSetor());
         JOptionPane.showMessageDialog(null, "COLABORADOR CADASTRADO COM SUCESSO!", "Cadastro de colaborador", JOptionPane.INFORMATION_MESSAGE);
 
-        ColaboradorDAO.salvar(colaborador);
+
         ColaboradorDAO.salvarBD(colaborador);
 
     }
@@ -179,7 +178,7 @@ public class Main {
                     break;
 
                 case 3:
-                    votarIdeia(selecaoDeIdeias());
+                    votarIdeia(colaborador);
                     menuOpcoesColaborador(colaborador);
                     break;
             }
@@ -189,8 +188,8 @@ public class Main {
 
         Object[] selectionValues = getIdeiasDAO().BuscarTitulos();
         String initialSelection = (String) selectionValues[0];
-        Object selection =  JOptionPane.showInputDialog(null, "Selecione o colaborador para editar",
-                "Colaboradores", JOptionPane.QUESTION_MESSAGE, null, selectionValues, initialSelection);
+        Object selection =  JOptionPane.showInputDialog(null, "Selecione a ideia desejada",
+                "Seleção de ideias", JOptionPane.QUESTION_MESSAGE, null, selectionValues, initialSelection);
 
 
         Integer id = IdeiaDAO.buscarIdPorTitulo(selection.toString());
@@ -203,7 +202,7 @@ public class Main {
 
         String initialSelection = (String) selectionValues[0];
         Object selection = JOptionPane.showInputDialog(null, "Selecione o setor desejado!",
-                "Setores", JOptionPane.QUESTION_MESSAGE, null, selectionValues, initialSelection);
+                "Seleção de setores", JOptionPane.QUESTION_MESSAGE, null, selectionValues, initialSelection);
 
 
         Integer id = SetorDAO.BuscarIdPorNome(selection.toString());
@@ -212,6 +211,7 @@ public class Main {
 
     public static void visualizarSetor() throws SQLException, ClassNotFoundException{
         JOptionPane.showMessageDialog(null, "Setores: " + SetorDAO.BuscarTodos());
+        System.out.println(VotoDAO.contarVotosPorOpcao(OpcaoVoto.LIKE));
     }
 
     private static void visualizacaoDeIdeias(Ideia ideia) throws SQLException, ClassNotFoundException{
@@ -225,27 +225,70 @@ public class Main {
         JOptionPane.showMessageDialog(null, "Ideias: " + IdeiaDAO.buscarTodosBD());
     }
 
-    private static void votarIdeia(Ideia ideia){
+    private static void votarIdeia(Colaborador colaborador) throws  SQLException, ClassNotFoundException{
 
-        String[] selectionValues = {"LIKE", "DESLIKE"};
-        String initialSelection = selectionValues[0];
-        Object selection = JOptionPane.showInputDialog(null, "Selecione o colaborador para editar",
-                "Colaboradores", JOptionPane.QUESTION_MESSAGE, null, selectionValues, initialSelection);
 
-        if(selection.equals(0)){
+        Ideia ideia = selecaoDeIdeias();
+        System.out.println(VotoDAO.verificarVotoNaIdeia(ideia, colaborador));
+        if (!VotoDAO.verificarVotoNaIdeia(ideia, colaborador)) {
+            String[] selectionValues = {"LIKE", "DESLIKE"};
+            String initialSelection = selectionValues[0];
+            int id = JOptionPane.showOptionDialog(null, "selecione a opção de voto", "Seleção de voto", JOptionPane.INFORMATION_MESSAGE, JOptionPane.QUESTION_MESSAGE, null, selectionValues, selectionValues[0]);
 
-        ideia.setVoto(Voto.LIKE);
-        }else {
-            ideia.setVoto(Voto.DESLIKE);
+            Voto voto = new Voto();
+            voto.setColaborador(colaborador);
+            voto.setIdeia(ideia);
+
+            if (id == 0) {
+                voto.setOpcaoVoto(OpcaoVoto.LIKE);
+            } else {
+                voto.setOpcaoVoto(OpcaoVoto.DESLIKE);
+            }
+
+            VotoDAO.salvar(voto);
         }
+
+        else {
+
+            Voto voto = VotoDAO.buscarPorIdeiaEColaborador(colaborador.getId(), ideia.getId());
+            String[] opcoes = {"SIM", "NÃO"};
+            int idOp;
+            if (voto.getOpcaoVoto().toString().equals("LIKE")) {
+                idOp = JOptionPane.showOptionDialog(null, "Deseja alterar a opção para DESLIKE?", "Alteração de opção de voto", JOptionPane.INFORMATION_MESSAGE, JOptionPane.QUESTION_MESSAGE, null, opcoes, opcoes[0]);
+
+                if (idOp == 0) {
+                    voto.setOpcaoVoto(OpcaoVoto.DESLIKE);
+                    VotoDAO.editar(voto);
+                }
+            }
+
+            else if (voto.getOpcaoVoto().toString().equals("DESLIKE")) {
+                idOp = JOptionPane.showOptionDialog(null, "Deseja alterar a opção para LIKE?", "Alteração de opção de voto", JOptionPane.INFORMATION_MESSAGE, JOptionPane.QUESTION_MESSAGE, null, opcoes, opcoes[0]);
+
+                if (idOp == 0) {
+                    voto.setOpcaoVoto(OpcaoVoto.LIKE);
+                    VotoDAO.editar(voto);
+                }
+            }
+
+
+         }
     }
 
-    private static void feedbackIdeias(Ideia ideia){
+    private static void feedbackIdeias(Ideia ideia) throws  SQLException, ClassNotFoundException{
 
+        String[] opcoes = {"SIM", "NÃO"};
+        int idOP = 0;
+        String textoFeedback = "";
+        if (IdeiaDAO.verificarFeedBack(ideia)) {
+            idOP = JOptionPane.showOptionDialog(null, "A ideia selecionada já tem um feedback, deseja altera-lo?", "Definição de feedback", JOptionPane.INFORMATION_MESSAGE, JOptionPane.QUESTION_MESSAGE, null, opcoes, opcoes[0]);
+            textoFeedback = "hjsbcsjv";
+        }
 
-
-
-
+        if (idOP == 0) {
+            ideia.setFeedback(JOptionPane.showInputDialog(null, "Digite o feedback da ideia:", textoFeedback));
+            IdeiaDAO.definirFeedbackIdeia(ideia);
+        }
     }
 
     private static void menuOpcoesAdmin() throws SQLException, ClassNotFoundException {
@@ -333,7 +376,6 @@ public class Main {
         String initialSelection = (String) selectionValues[0];
         Object selection = JOptionPane.showInputDialog(null, "Selecione o colaborador para editar",
                 "Colaboradores", JOptionPane.QUESTION_MESSAGE, null, selectionValues, initialSelection);
-        List<Colaborador> colaboradorList = ColaboradorDAO.buscarPorNome(selection);
 
         Integer id = ColaboradorDAO.BuscarIdPorNome(selection.toString());
         return ColaboradorDAO.BuscarPorId(id);
@@ -365,7 +407,6 @@ public class Main {
         ideia.setColaborador(colaborador);
         ideia.setSetor(selecaoSetor());
 
-        IdeiaDAO.salvarIdeia(ideia);
         IdeiaDAO.salvarIdeiaBD(ideia);
     }
 

@@ -1,17 +1,14 @@
 package classesDAO;
 import entidades.Colaborador;
 import entidades.Ideia;
-import entidades.Setor;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class IdeiaDAO {
 
-    private static List<Ideia> ideias = new ArrayList<>();
 
     public static Connection getConnection() throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
@@ -21,13 +18,10 @@ public class IdeiaDAO {
         return connection;
     }
 
-    public static void salvarIdeia(Ideia ideia){
-        ideias.add(ideia);
-    }
 
     public static void salvarIdeiaBD(Ideia ideia) throws SQLException, ClassNotFoundException {
 
-        //titulo, descricao, datapublicacao, feedback, status, idcolaborador, idsetor
+
         Connection connection = getConnection();
         PreparedStatement stmt = connection.prepareStatement("insert into ideia(titulo, descricao, datapublicacao, feedback, status, idcolaborador, idsetor) values (?, ?, ?, ?, ?, ?, ?)");
         stmt.setString(1, ideia.getTitulo());
@@ -61,14 +55,19 @@ public class IdeiaDAO {
         int x = stmt.executeUpdate();
     }
 
-    public static void excluir(Integer id) throws  SQLException, ClassNotFoundException {
+
+    public static void definirFeedbackIdeia(Ideia ideia) throws SQLException, ClassNotFoundException {
+
         Connection connection = getConnection();
-        PreparedStatement stmt = connection.prepareStatement("delete from ideia where idideia = ?");
-        stmt.setInt(1, id);
+        PreparedStatement stmt = connection.prepareStatement("update ideia set feedback=? where idideia=?");
+
+        stmt.setString(1, ideia.getFeedback());
+        stmt.setInt(2, ideia.getId());
 
         stmt.executeUpdate();
         connection.close();
     }
+
 
     public  static List<Ideia> buscarTodosBD() throws SQLException, ClassNotFoundException {
 
@@ -84,7 +83,7 @@ public class IdeiaDAO {
             ideia.setId(resultSet.getInt(1));
             ideia.setTitulo(resultSet.getString(2));
             ideia.setDescricao(resultSet.getString(3));
-//            ideia.setData(LocalDate.parse(resultSet.getString(4), formatter));
+            ideia.setData(resultSet.getString(4));
             ideia.setFeedback(resultSet.getString(5));
             ideia.setStatus(resultSet.getString(6));
             ideia.setColaborador(ColaboradorDAO.BuscarPorId(resultSet.getInt(7)));
@@ -99,31 +98,6 @@ public class IdeiaDAO {
 
     }
 
-
-
-    public static List<Ideia> buscarTodos(){
-        return ideias;
-    }
-
-    public static Object[] findIdeiasInArray(){
-        //List<Ideia> ideiaBusca = IdeiaDAO.buscarTodos();
-        List<String> ideiaBuscaTitulo = new ArrayList<>();
-
-        for (Ideia ideia1 : ideias) {
-            ideiaBuscaTitulo.add(ideia1.getTitulo());
-        }
-        return ideiaBuscaTitulo.toArray();
-    }
-
-    public List<Ideia> buscarPorTitulo(Object titulo) {
-        List<Ideia>ideiasFiltradas = new ArrayList<>();
-        for (Ideia busca : ideias){
-            if(busca.getTitulo().equals(titulo)){
-            ideiasFiltradas.add(busca);
-            }
-        }
-        return ideiasFiltradas;
-    }
 
     public Object[] BuscarTitulos() throws  SQLException, ClassNotFoundException {
         List<String> titulos = new ArrayList<>();
@@ -170,10 +144,6 @@ public class IdeiaDAO {
         ideia.setTitulo(resultSet.getString(2));
         ideia.setDescricao(resultSet.getString(3));
         ideia.setData(resultSet.getString(4));
-//        String[] dataBD = resultSet.getString(4).split("-");
-//        String dataFormatada = LocalDate.of(Integer.parseInt(dataBD[0]), Integer.parseInt(dataBD[1]), Integer.parseInt(dataBD[2])).format(formatter);
-//        System.out.println(dataFormatada);
-//        ideia.setDate(LocalDate.parse(dataFormatada, formatter));
         ideia.setFeedback(resultSet.getString(5));
         ideia.setStatus(resultSet.getString(6));
         ideia.setColaborador(ColaboradorDAO.BuscarPorId(resultSet.getInt(7)));
@@ -181,35 +151,24 @@ public class IdeiaDAO {
         return ideia;
     }
 
-    public static List<Ideia> buscarIdeiasPorColaborador(Colaborador colaborador) throws SQLException, ClassNotFoundException {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-        List<Ideia> ideias = new ArrayList<>();
+    public static Boolean verificarFeedBack(Ideia ideia) throws SQLException, ClassNotFoundException{
+
         Connection connection = getConnection();
-        PreparedStatement stmt = connection.prepareStatement("select * from ideia where idcolaborador=?");
-        stmt.setInt(1, colaborador.getId());
+        PreparedStatement stmt = connection.prepareStatement("select feedback from ideia where idideia=?");
+
+        stmt.setInt(1, ideia.getId());
 
         ResultSet resultSet = stmt.executeQuery();
-        while (resultSet.next()) {
-            Ideia ideia = new Ideia();
-            ideia.setId(resultSet.getInt(1));
-            ideia.setTitulo(resultSet.getString(2));
-            ideia.setDescricao(resultSet.getString(3));
 
-//            String[] dataBD = resultSet.getString(4).split("-");
-//            String dataFormatada = LocalDate.of(Integer.parseInt(dataBD[0]), Integer.parseInt(dataBD[1]), Integer.parseInt(dataBD[2])).format(formatter);
-//            System.out.println(dataFormatada);
-//            ideia.setDate(LocalDate.parse(dataFormatada, formatter));
-            ideia.setFeedback(resultSet.getString(5));
-            ideia.setStatus(resultSet.getString(6));
-            ideia.setColaborador(colaborador);
 
-            ideia.setSetor(SetorDAO.BuscarPorId(resultSet.getInt(8)));
+        if (resultSet.next()) {
 
-            ideias.add(ideia);
-
+            return true;
         }
 
-        return ideias;
+        return false;
     }
-}
+    }
+
+

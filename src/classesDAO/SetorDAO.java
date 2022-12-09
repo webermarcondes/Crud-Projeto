@@ -9,7 +9,6 @@ import java.util.List;
 
 public class SetorDAO {
 
-    public static List<Setor> setorList = new ArrayList<>();
 
     public static Connection getConnection() throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
@@ -19,9 +18,7 @@ public class SetorDAO {
         return connection;
     }
 
-    public static void salvarSetor(Setor setor){
-        setorList.add(setor);
-    }
+
 
     public static void salvarBD(Setor setor) throws SQLException, ClassNotFoundException {
 
@@ -34,9 +31,7 @@ public class SetorDAO {
         connection.close();
     }
 
-    public static void remover(Setor setor){
-        setorList.remove(setor);
-    }
+
 
     public static void excluirBD(Integer id) throws  SQLException, ClassNotFoundException {
         Connection connection = getConnection();
@@ -62,9 +57,6 @@ public class SetorDAO {
         stmt.executeUpdate();
         connection.close();
     }
-    public static List<Setor> buscarTodos(){
-        return setorList;
-    }
 
     public static List<Setor> BuscarTodos() throws  SQLException, ClassNotFoundException {
         List<Setor> setore = new ArrayList<>();
@@ -79,24 +71,9 @@ public class SetorDAO {
         System.out.println(setore);
         return setore;
     }
-    public static Object[] findSetorInArray(){
-        List<String> setorTitulo = new ArrayList<>();
 
-        for (Setor setor : setorList) {
-            setorTitulo.add(setor.getNomeSetor());
-        }
-        return setorTitulo.toArray();
-    }
 
-    public static List<Setor> buscarPorTitulo(Object titulo) {
-        List<Setor> setorFiltrado = new ArrayList<>();
-        for (Setor busca : setorList){
-            if(busca.getNomeSetor().equals(titulo)){
-                setorFiltrado.add(busca);
-            }
-        }
-        return setorFiltrado;
-    }
+
 
     public static Setor BuscarPorId(Integer id) throws SQLException, ClassNotFoundException {
         Connection connection = getConnection();
