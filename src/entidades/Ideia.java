@@ -1,23 +1,32 @@
 package entidades;
 
-import enums.Voto;
-
 public class Ideia {
 
-    private String id;
+    private Integer id;
     private String titulo;
     private String descricao;
     private String data;
+
     private Colaborador colaborador;
     private Setor setor;
-    private FeedBack feedBack;
+
+    private String feedback="";
     private Voto voto;
+    private String status;
 
 
 
     public Ideia() {
 
     }
+
+//    public LocalDate getDate() {
+//        return date;
+//    }
+//
+//    public void setDate(LocalDate date) {
+//        this.date = date;
+//    }
 
     public Voto getVoto() {
         return voto;
@@ -31,29 +40,35 @@ public class Ideia {
         return setor;
     }
 
-    public FeedBack getFeedBack() {
-        return feedBack;
+
+    public String getStatus() {
+        return status;
+    }
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    public void setFeedBack(FeedBack feedBack) {
-        this.feedBack = feedBack;
+    public Integer getId() {
+        return id;
     }
 
-    public void setFeedBackNull(String nullo) {
-        this.feedBack.setDescricao(nullo);
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getFeedback() {
+        return feedback;
+    }
+
+    public void setFeedback(String feedback) {
+        this.feedback = feedback;
     }
 
     public void setSetor(Setor setor) {
         this.setor = setor;
     }
 
-    public String getId() {
-        return id;
-    }
 
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getTitulo() {
         return titulo;
@@ -96,7 +111,7 @@ public class Ideia {
                 ", data=" + data +
                 ", colaborador=" + colaborador +
                 ", setor=" + setor +
-                ", feedBack=" + feedBack +
+                ", feedBack=" + feedback +
                 '}';
     }
 }
