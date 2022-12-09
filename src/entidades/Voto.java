@@ -4,16 +4,16 @@ import entidades.Ideia;
 import enums.OpcaoVoto;
 
 public class Voto {
-    private String id;
+    private Integer id;
     private Ideia ideia;
     private OpcaoVoto opcaoVoto;
     private Colaborador colaborador;
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -39,5 +39,12 @@ public class Voto {
 
     public void setColaborador(Colaborador colaborador) {
         this.colaborador = colaborador;
+    }
+
+    @Override
+    public String toString() {
+        return "Voto{" +
+                "opcaoVoto=" + opcaoVoto +
+                '}';
     }
 }
