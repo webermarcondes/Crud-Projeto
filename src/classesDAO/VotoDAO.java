@@ -10,9 +10,9 @@ import java.sql.*;
 public class VotoDAO {
 
     public static Connection getConnection() throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        String url = "jdbc:mysql://localhost:3306/sgdibd";
-        Connection connection = DriverManager.getConnection(url, "root", "");
+        Class.forName("org.postgresql.Driver");
+        String url = "jdbc:postgresql://localhost:5432/sgdibd";
+        Connection connection = DriverManager.getConnection(url, "postgres", "1010");
 
         return connection;
     }

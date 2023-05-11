@@ -5,29 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="edd67421-530f-4db6-bbd8-c535b102da0c" name="Changes" comment="Removendo">
-      <change afterPath="$PROJECT_DIR$/src/tableForms/RelatorioIdeias.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/tableForms/TabelaIdeias.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitattributes" beforeDir="false" afterPath="$PROJECT_DIR$/.gitattributes" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/mysql_connector_java_8_0_30.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/mysql_connector_java_8_0_30.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Crud-Projeto.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Crud-Projeto.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/LICENSE" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/classesDAO/ColaboradorDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/classesDAO/ColaboradorDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/classesDAO/IdeiaDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/classesDAO/IdeiaDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/classesDAO/SetorDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/classesDAO/SetorDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/entidades/Ideia.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entidades/Ideia.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/entidades/Setor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entidades/Setor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/entidades/Voto.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/enums/OpcaoVoto.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/enums/Voto.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/repository/IdeiaRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/repository/IdeiaRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/postgresql_42_3_5.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SCRIPT_CRIACAO_SGDIBD.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysql-connector-java-8.0.28.jar" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,6 +37,7 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "last_opened_file_path": "C:/Users/Tulio/IdeaProjects/Crud-Projeto",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.0",
@@ -96,6 +77,17 @@
     </task>
     <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Removendo" />
