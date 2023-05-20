@@ -23,7 +23,7 @@ public class SetorDAO {
     public static void salvarBD(Setor setor) throws SQLException, ClassNotFoundException {
 
         Connection connection = getConnection();
-        PreparedStatement stmt = connection.prepareStatement("insert into setor(nome) values (?)");
+        PreparedStatement stmt = connection.prepareStatement("insert into setor(idsetor, nome) values (nextval('setor_idsetor_seq'), ?)");
         stmt.setString(1, setor.getNomeSetor());
 
         int x = stmt.executeUpdate();

@@ -23,7 +23,7 @@ public class IdeiaDAO {
 
 
         Connection connection = getConnection();
-        PreparedStatement stmt = connection.prepareStatement("insert into ideia(titulo, descricao, datapublicacao, feedback, status, idcolaborador, idsetor) values (?, ?, ?, ?, ?, ?, ?)");
+        PreparedStatement stmt = connection.prepareStatement("insert into ideia(idideia ,titulo, descricao, datapublicacao, feedback, status, idcolaborador, idsetor) values (nextval('ideia_idideia_seq') ,?, ?, ?, ?, ?, ?, ?)");
         stmt.setString(1, ideia.getTitulo());
         stmt.setString(2, ideia.getDescricao());
         stmt.setString(3, ideia.getData());

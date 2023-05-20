@@ -21,7 +21,7 @@ public class VotoDAO {
         Connection connection = getConnection();
 
 
-        PreparedStatement stmt = connection.prepareStatement("insert into voto(opcao, idideia, idcolaborador) values (?, ?, ?)");
+        PreparedStatement stmt = connection.prepareStatement("insert into voto(idvoto, opcao, idideia, idcolaborador) values (nextval('voto_idvoto_seq'), ?, ?, ?)");
         stmt.setString(1, voto.getOpcaoVoto().toString());
         stmt.setInt(2, voto.getIdeia().getId());
         stmt.setInt(3, voto.getColaborador().getId());

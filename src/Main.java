@@ -44,6 +44,10 @@ public class Main {
         String senha = JOptionPane.showInputDialog(null, "Digite sua Senha de 8 caracteres númericos");
 
         Colaborador colaborador = ColaboradorDAO.buscarPorLoginESenhaBD(login, senha);
+        /*Colaborador colaborador = new Colaborador();
+        colaborador.setLogin(login);
+        colaborador.setNome(login);
+        colaborador.setSenha(senha);*/
 
         if (colaborador.getNome().equals("admin")) {
             menuOpcoesAdmin();

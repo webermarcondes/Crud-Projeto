@@ -5,9 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="edd67421-530f-4db6-bbd8-c535b102da0c" name="Changes" comment="Removendo">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/postgresql_42_3_5.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SCRIPT_CRIACAO_SGDIBD.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysql-connector-java-8.0.28.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/mysql_connector_java_8_0_30.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Crud-Projeto.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Crud-Projeto.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/postgresql-42.3.5.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/classesDAO/ColaboradorDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/classesDAO/ColaboradorDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/classesDAO/IdeiaDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/classesDAO/IdeiaDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/classesDAO/SetorDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/classesDAO/SetorDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/classesDAO/VotoDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/classesDAO/VotoDAO.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,13 +44,18 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "last_opened_file_path": "C:/Users/Tulio/IdeaProjects/Crud-Projeto",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
+    "last_opened_file_path": "C:/Users/weber/OneDrive/Documentos/GitHub/Crud-Projeto/postgresql-42.3.5.jar",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\weber\OneDrive\Documentos\GitHub\Crud-Projeto" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />

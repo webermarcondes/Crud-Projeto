@@ -22,7 +22,7 @@ public class ColaboradorDAO {
     public static void salvarBD(Colaborador colaborador) throws  SQLException, ClassNotFoundException{
 
         Connection connection = getConnection();
-        PreparedStatement stmt = connection.prepareStatement("insert into colaborador(nome, login, senha, idsetor) values (?, ?, ?, ?)");
+        PreparedStatement stmt = connection.prepareStatement("insert into colaborador(idcolaborador, nome, login, senha, idsetor) values (nextval('colaborador_idcolaborador_seq'),?,  ?, ?, ?)");
         stmt.setString(1, colaborador.getNome());
         stmt.setString(2, colaborador.getLogin());
         stmt.setString(3, colaborador.getSenha());
@@ -107,7 +107,7 @@ public class ColaboradorDAO {
         Colaborador colab = null;
 
         Connection connection = getConnection();
-        PreparedStatement stmt = connection.prepareStatement("select * from colaborador where login = ? and senha = ?");
+        PreparedStatement stmt = connection.prepareStatement("select * from colaborador where login =? and senha=?");
         stmt.setString(1, login);
         stmt.setString(2, senha);
 
